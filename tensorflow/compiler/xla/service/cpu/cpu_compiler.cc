@@ -111,6 +111,7 @@ limitations under the License.
 #include "tensorflow/compiler/xla/service/hlo_verifier.h"
 #include "tensorflow/compiler/xla/service/indexed_array_analysis.h"
 #include "tensorflow/compiler/xla/service/tensor_splitter.h"
+#include "tensorflow/compiler/xla/service/tensor_splitter_v2.h"
 #include "tensorflow/compiler/xla/service/rce_optimizer.h"
 #include "tensorflow/compiler/xla/service/reshape_sinker.h"
 #include "tensorflow/compiler/xla/service/llvm_compiler.h"
@@ -338,6 +339,7 @@ Status CpuCompiler::RunHloPassesThroughLayoutAssn(
   // ReshapeSinker may introduce new redundant reshape chain 
   pipeline.AddPass<HloPassFix<RceOptimizer>>();
   pipeline.AddPass<TensorSplitter>();
+  pipeline.AddPass<TensorSplitterV2>();
   pipeline.AddPass<HloDCE>();  // splitter can cut out large chunks of the graph
 
   pipeline.AddPass<ConditionalToSelect>();
