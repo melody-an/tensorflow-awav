@@ -2401,6 +2401,21 @@ cc_library(
 )
 
 cc_library(
+    name = "hlo_mco",
+    srcs = ["hlo_mco.cc"],
+    hdrs = ["hlo_mco.h"],
+    deps = [
+        ":hlo",
+        ":hlo_creation_utils",
+        ":hlo_pass",
+        ":pattern_matcher",
+        ":call_inliner",
+        ":shape_inference",
+        "@com_google_absl//absl/algorithm:container",
+    ],
+)
+
+cc_library(
     name = "reshape_sinker",
     srcs = ["reshape_sinker.cc"],
     hdrs = ["reshape_sinker.h"],
@@ -2414,6 +2429,26 @@ cc_library(
         "@com_google_absl//absl/algorithm:container",
     ],
 )
+
+
+tf_cc_test(
+    name = "hlo_mco_test",
+    srcs = ["hlo_mco_test.cc"],
+    deps = [
+        ":hlo_mco",
+        ":hlo",
+        ":hlo_pass",
+        "//tensorflow/compiler/xla:shape_util",
+        "//tensorflow/compiler/xla:test",
+        "//tensorflow/compiler/xla:types",
+        "//tensorflow/compiler/xla:xla_data_proto_cc",
+        "//tensorflow/compiler/xla/tests:hlo_test_base",
+        "//tensorflow/compiler/xla/tests:xla_internal_test_main",  # fixdeps: keep
+        "//tensorflow/compiler/jit:xla_cpu_jit",
+        "//tensorflow/core:test",
+    ],
+)
+
 
 cc_library(
     name = "tree_reduction_rewriter",
