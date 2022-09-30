@@ -359,7 +359,11 @@ message DebugOptions {
   // the splitting size.
   string xla_tensor_split_size = 159;
 
-  // Next id: 160
+  // If true, the remainder part of a splitting result will be merged into
+  // it's corresponding while-loop.
+  bool xla_tensor_split_merge_rest = 160;
+
+  // Next id: 161
 
   // Extra options to pass to the compilation backend (e.g. LLVM); specific
   // interpretation of these values is left to the backend.
